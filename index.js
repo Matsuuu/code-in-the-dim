@@ -1,4 +1,1 @@
-import { debugBubble } from "debug-bubble";
-import "./src/editor.js";
-
-debugBubble("Hello world!", "Foo");
+import "./src/editor-element.js";
