@@ -11,6 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@codemirror/commands": "^6.3.0",
+    "@codemirror/lang-css": "^6.2.1",
+    "@codemirror/lang-html": "^6.4.6",
+    "@codemirror/state": "^6.3.1",
+    "@codemirror/view": "^6.22.0",
+    "@replit/codemirror-vim": "^6.1.0",
     "codemirror": "^6.0.1",
     "debug-bubble": "^1.1.0",
     "lit": "^3.1.0"
