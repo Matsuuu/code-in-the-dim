@@ -4,24 +4,23 @@ import { keymap } from "@codemirror/view";
 import { EditorView, basicSetup } from "codemirror";
 import { css as codemirrorCss } from "@codemirror/lang-css";
 import { html as codemirrorHtml } from "@codemirror/lang-html";
-import { LitElement, html } from "lit"
-import { keymapCompartment, setEditorKeymap } from "./editor.js";
+import { LitElement, html } from "lit";
+import { keymapCompartment, keymaps, setEditorKeymap } from "./editor.js";
 import { vim } from "@replit/codemirror-vim";
 
 export class CodeInTheDim extends LitElement {
-
     static get properties() {
         return {
             editor: { type: Object },
             keymap: { type: String, reflect: true },
-        }
+        };
     }
 
     constructor() {
         super();
 
         this.editor = undefined;
-        this.keymap = "regular";
+        this.keymap = "Regular";
         this.content = `
 <style>
     p {
@@ -32,7 +31,7 @@ export class CodeInTheDim extends LitElement {
 <div class="foo">
     <p>This is a paragraph</p>
 </div>
-`
+`;
     }
 
     firstUpdated() {
@@ -47,38 +46,43 @@ export class CodeInTheDim extends LitElement {
                 keymapCompartment.of(keymap.of(defaultKeymap)), // TODO: Support vim
                 keymap.of([indentWithTab]),
                 codemirrorCss(),
-                codemirrorHtml()
+                codemirrorHtml(),
             ],
-            parent: this.shadowRoot.querySelector("#editor")
+            parent: this.shadowRoot.querySelector("#editor"),
         });
     }
 
-    setKeymap(map) {
-        this.keymap = map;
-        let keymapObject = keymap.of(defaultKeymap);
-        switch (map) {
-            case "regular":
-                keymapObject = keymap.of(defaultKeymap);
-                break;
-            case "vim":
-                keymapObject = vim();
-                break;
-        }
-
-        setEditorKeymap(this.editor, keymapObject);
+    /**
+     * @param {string} mapName
+     * @param {import("@codemirror/state").Extension} mapConfig
+     */
+    setKeymap(mapName, mapConfig) {
+        this.keymap = mapName;
+        setEditorKeymap(this.editor, mapConfig);
     }
 
     render() {
         return html`
-            <section id="editor"></section>
+      <section id="editor"></section>
 
-            <section id="controls">
-                <div class="control keymap-control">
-                    <button @click=${() => this.setKeymap("regular")}>Regular</button>
-                    <button @click=${() => this.setKeymap("vim")}>Vim</button>
-                </div>
-            </section>
-        `;
+      <section id="controls">
+        <div class="control keymap-control">
+          ${keymaps.map(
+            (km) => html`
+              <label for="${km.name}">${km.name}</label>
+              <input
+              @change=${() => this.setKeymap(km.name, km.config)}
+                ?checked=${this.keymap === km.name}
+                id="${km.name}"
+                type="radio"
+                name="keymap"
+                value="${km.name}"
+              />
+            `,
+        )}
+        </div>
+      </section>
+    `;
     }
 }
 

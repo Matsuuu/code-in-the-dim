@@ -1,4 +1,6 @@
+import { defaultKeymap } from "@codemirror/commands";
 import { Compartment } from "@codemirror/state";
+import { keymap } from "@codemirror/view";
 import { vim } from "@replit/codemirror-vim";
 import { EditorView } from "codemirror";
 
@@ -15,3 +17,14 @@ export function setEditorKeymap(editor, keymap) {
         effects: keymapCompartment.reconfigure(keymap)
     })
 }
+
+export const keymaps = [
+    {
+        name: "Regular",
+        config: keymap.of(defaultKeymap)
+    },
+    {
+        name: "Vim",
+        config: vim()
+    }
+]
