@@ -1,12 +1,12 @@
 import { defaultKeymap, indentWithTab } from "@codemirror/commands";
-import { Compartment } from "@codemirror/state";
 import { keymap } from "@codemirror/view";
 import { EditorView, basicSetup } from "codemirror";
 import { css as codemirrorCss } from "@codemirror/lang-css";
 import { html as codemirrorHtml } from "@codemirror/lang-html";
 import { LitElement, html } from "lit";
 import { keymapCompartment, keymaps, setEditorKeymap } from "./editor.js";
-import { vim } from "@replit/codemirror-vim";
+import { EditorTheme } from "./editor-theme.js";
+import { oneDark } from "@codemirror/theme-one-dark";
 
 export class CodeInTheDim extends LitElement {
     static get properties() {
@@ -47,6 +47,7 @@ export class CodeInTheDim extends LitElement {
                 keymap.of([indentWithTab]),
                 codemirrorCss(),
                 codemirrorHtml(),
+                oneDark
             ],
             parent: this.shadowRoot.querySelector("#editor"),
         });
@@ -83,6 +84,12 @@ export class CodeInTheDim extends LitElement {
         </div>
       </section>
     `;
+    }
+
+    static get styles() {
+        return [
+            EditorTheme
+        ]
     }
 }
 
