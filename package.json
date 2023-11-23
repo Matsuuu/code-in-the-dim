@@ -1,0 +1,21 @@
+{
+  "name": "code-in-the-dim",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run start:no-resolve -- --node-resolve",
+    "start:no-resolve": "web-dev-server --open --watch --app-index index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "codemirror": "^6.0.1",
+    "debug-bubble": "^1.1.0",
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "@web/dev-server": "^0.4.1"
+  }
+}
