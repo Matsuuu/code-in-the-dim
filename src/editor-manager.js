@@ -33,13 +33,19 @@ class EditorManager extends EventTarget {
         keymap: "Regular"
     };
 
+    #EVENTS = [
+        EditorInitialized,
+        EditorKeymapChanged,
+        EditorSnapshot
+    ];
+
     constructor() {
         super();
         this.#state.keymap = getUrlParam("keymap") || keymaps[0].name;
 
-        this.addEventListener(EditorInitialized.eventName, this.onEditorInitialized.bind(this));
-        this.addEventListener(EditorKeymapChanged.eventName, this.onEditorKeymapChanged.bind(this));
-        this.addEventListener(EditorSnapshot.eventName, this.onEditorSnapshot.bind(this));
+        for (const ev of this.#EVENTS) {
+            this.addEventListener(ev.eventName, this);
+        }
     }
 
     /**
@@ -53,12 +59,9 @@ class EditorManager extends EventTarget {
         return this.#state.editor;
     }
 
-    /**
-     * @param {import("@codemirror/state").Extension} keymap
-     */
-    setKeymap(keymap) {
+    updateKeymap() {
         this.#state.editor.dispatch({
-            effects: keymapCompartment.reconfigure(keymap)
+            effects: keymapCompartment.reconfigure(this.getKeymap().config)
         })
         this.broadcast(new EditorConfigurationUpdated());
     }
@@ -68,26 +71,24 @@ class EditorManager extends EventTarget {
     }
 
     /**
-     * @param {EditorInitialized} event
+     * @param {Event} event
      */
-    onEditorInitialized(event) {
-        this.#state.editor = event.editorElement;
-    }
+    handleEvent(event) {
+        if (event instanceof EditorInitialized) {
+            this.#state.editor = event.editorElement;
+            return;
+        }
 
-    /**
-     * @param {EditorKeymapChanged} event
-     */
-    onEditorKeymapChanged(event) {
-        this.#state.keymap = event.keymap;
-        // As we set it above to state, we can utilize the setter below.
-        this.setKeymap(this.getKeymap().config);
-    }
+        if (event instanceof EditorKeymapChanged) {
+            this.#state.keymap = event.keymap;
+            // As we set it above to state, we can utilize the setter below.
+            this.updateKeymap();
+            return;
+        }
 
-    /**
-     * @param {EditorSnapshot} event
-     */
-    onEditorSnapshot(event) {
-        // TODO: Send to some server
+        if (event instanceof EditorSnapshot) {
+            // TODO: Send to some server
+        }
     }
 }
 
