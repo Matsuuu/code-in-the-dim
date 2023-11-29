@@ -1,7 +1,11 @@
 import { css } from "lit";
 
 export const EditorTheme = css`
-label {
-    color: #FFF;
-}
+    .cm-editor {
+        font-size: 18px;
+    }
+
+    label {
+        color: #FFF;
+    }
 `

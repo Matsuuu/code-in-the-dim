@@ -3,7 +3,7 @@ import { Compartment } from "@codemirror/state";
 import { keymap } from "@codemirror/view";
 import { defaultKeymap } from "@codemirror/commands";
 import { vim } from "@replit/codemirror-vim";
-import { getUrlParam } from "./url";
+import { getUrlParam, setUrlParam } from "./url";
 import { EditorKeymapChanged } from "./events/editor-keymap-changed";
 import { EditorConfigurationUpdated } from "./events/editor-configuration-updated";
 import { EditorSnapshot } from "./events/editor-snapshot";
@@ -30,7 +30,8 @@ class EditorManager extends EventTarget {
      * */
     #state = {
         editor: undefined,
-        keymap: "Regular"
+        keymap: "Regular",
+        coderName: undefined
     };
 
     #EVENTS = [
@@ -42,10 +43,29 @@ class EditorManager extends EventTarget {
     constructor() {
         super();
         this.#state.keymap = getUrlParam("keymap") || keymaps[0].name;
+        this.#state.coderName = getUrlParam("coderName");
 
         for (const ev of this.#EVENTS) {
             this.addEventListener(ev.eventName, this);
         }
+
+        if (!this.#state.coderName) {
+            this.requestCoderName();
+        }
+    }
+
+    requestCoderName() {
+        const response = prompt("Please provide us your coder name");
+        if (!response) {
+            this.requestCoderName();
+            return;
+        }
+        setUrlParam("coderName", response);
+        this.#state.coderName = response;
+    }
+
+    getCoderName() {
+        return this.#state.coderName;
     }
 
     /**
