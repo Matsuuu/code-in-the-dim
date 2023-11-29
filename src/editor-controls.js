@@ -1,10 +1,21 @@
-import { LitElement, css, html } from "lit";
-import { EditorManager, keymaps } from "./editor-manager.js";
-import { setUrlParam } from "./url.js";
-import { EditorKeymapChanged } from "./events/editor-keymap-changed.js";
-import { EditorConfigurationUpdated } from "./events/editor-configuration-updated.js";
+import { LitElement, css, html } from 'lit';
+import { when } from 'lit/directives/when.js';
+import { EditorManager, keymaps } from './editor-manager.js';
+import { setUrlParam } from './url.js';
+import { EditorKeymapChanged } from './events/editor-keymap-changed.js';
+import { EditorConfigurationUpdated } from './events/editor-configuration-updated.js';
 
 export class EditorControls extends LitElement {
+    static get properties() {
+        return {
+            open: { type: Boolean, reflect: true },
+        };
+    }
+
+    constructor() {
+        super();
+        this.open = false;
+    }
 
     firstUpdated() {
         EditorManager.addEventListener(EditorConfigurationUpdated.eventName, () => this.requestUpdate());
@@ -15,52 +26,70 @@ export class EditorControls extends LitElement {
      */
     setKeymap(mapName) {
         this.keymap = mapName;
-        EditorManager.dispatchEvent(new EditorKeymapChanged(this.keymap))
-        setUrlParam("keymap", mapName);
+        EditorManager.dispatchEvent(new EditorKeymapChanged(this.keymap));
+        setUrlParam('keymap', mapName);
     }
 
     render() {
         return html`
+            <section id="controls-toggle">
+                <button @click=${() => this.open = !this.open}>⚙️</button>
+            </section>
+            ${when(this.open, () => this.renderControls())}
+        `;
+    }
 
-      <section id="controls">
-        <div class="control keymap-control">
-          ${keymaps.map(
-            (km) => html`
-              <label for="${km.name}">${km.name}</label>
-              <input
-              @change=${() => this.setKeymap(km.name)}
-                ?checked=${EditorManager.getKeymap().name === km.name}
-                id="${km.name}"
-                type="radio"
-                name="keymap"
-                value="${km.name}"
-              />
-            `,
+    renderControls() {
+        return html`
+            <section id="controls">
+                <div class="control keymap-control">
+                    ${keymaps.map(
+            km => html`
+                            <label for="${km.name}">${km.name}</label>
+                            <input
+                                @change=${() => this.setKeymap(km.name)}
+                                ?checked=${EditorManager.getKeymap().name === km.name}
+                                id="${km.name}"
+                                type="radio"
+                                name="keymap"
+                                value="${km.name}"
+                            />
+                        `,
         )}
-        </div>
-      </section>
-
+                </div>
+            </section>
         `;
     }
 
     static get styles() {
         return [
             css`
-        #controls {
-            color: #FFF;
-          background: rgba(255, 255, 255, 0.3);
-          padding: 1rem;
-          border-radius: 4px;
+                #controls {
+                    color: #fff;
+                    background: rgba(255, 255, 255, 0.3);
+                    padding: 1rem;
+                    border-radius: 4px;
 
-          position: absolute;
-          top: 3rem;
-          right: 3rem;
-        }
-      `,
+                    position: absolute;
+                    top: 3rem;
+                    right: 3rem;
+                }
+
+                #controls-toggle button {
+                    background: none;
+                    outline: none;
+                    border: none;
+                    cursor: pointer;
+
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                }
+            `,
         ];
     }
 }
 
-if (!customElements.get("editor-controls")) {
-    customElements.define("editor-controls", EditorControls);
+if (!customElements.get('editor-controls')) {
+    customElements.define('editor-controls', EditorControls);
 }
