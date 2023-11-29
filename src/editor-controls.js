@@ -2,11 +2,12 @@ import { LitElement, css, html } from "lit";
 import { EditorManager, keymaps } from "./editor-manager.js";
 import { setUrlParam } from "./url.js";
 import { EditorKeymapChanged } from "./events/editor-keymap-changed.js";
+import { EditorConfigurationUpdated } from "./events/editor-configuration-updated.js";
 
 export class EditorControls extends LitElement {
 
-    constructor() {
-        super();
+    firstUpdated() {
+        EditorManager.addEventListener(EditorConfigurationUpdated.eventName, () => this.requestUpdate());
     }
 
     /**

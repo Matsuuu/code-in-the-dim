@@ -5,6 +5,7 @@ import { defaultKeymap } from "@codemirror/commands";
 import { vim } from "@replit/codemirror-vim";
 import { getUrlParam } from "./url";
 import { EditorKeymapChanged } from "./events/editor-keymap-changed";
+import { EditorConfigurationUpdated } from "./events/editor-configuration-updated";
 
 
 // Toggleables
@@ -56,6 +57,7 @@ class EditorManager extends EventTarget {
         this.#state.editor.dispatch({
             effects: keymapCompartment.reconfigure(keymap)
         })
+        this.broadcast(new EditorConfigurationUpdated());
     }
 
     getKeymap() {
