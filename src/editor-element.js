@@ -10,19 +10,18 @@ import { oneDark } from "@codemirror/theme-one-dark";
 import "./editor-controls.js";
 import { EditorManager } from "./editor-manager.js";
 import { EditorInitialized } from "./events/editor-initialized-event.js";
+import { getUrlParam } from "./url.js";
 
 export class EditorElement extends LitElement {
     static get properties() {
         return {
             editor: { type: Object },
-            keymap: { type: String, reflect: true },
         };
     }
 
     constructor() {
         super();
 
-        this.keymap = keymaps[0].name; // Regular
         this.editor = undefined;
         this.content = `
 <style>
@@ -42,7 +41,8 @@ export class EditorElement extends LitElement {
     }
 
     initializeEditor() {
-        const editorKeyMap = keymaps.find(km => km.name === this.keymap) ?? keymaps[0];
+        const keymapKey = getUrlParam("keymap") || keymaps[0].name;
+        const editorKeyMap = keymaps.find(km => km.name === keymapKey) ?? keymaps[0];
 
         this.editor = new EditorView({
             doc: this.content,
