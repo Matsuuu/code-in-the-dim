@@ -1,5 +1,5 @@
 import { LitElement, css, html } from 'lit';
-import { ButtonTheme } from './editor-theme';
+import { ButtonTheme } from './editor-theme.js';
 
 export class CodingInstructions extends LitElement {
     static get properties() {

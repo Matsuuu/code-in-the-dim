@@ -5,6 +5,19 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="main.css" rel="stylesheet" />
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "codemirror": "https://esm.run/codemirror",
+                    "@codemirror/": "https://esm.run/@codemirror/",
+                    "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.3.2/+esm",
+                    "lit": "https://esm.run/lit",
+                    "lit/": "https://esm.run/lit/",
+                    "@replit/codemirror-vim": "https://esm.run/@replit/codemirror-vim"
+                }
+            }
+        </script>
     </head>
     <body>
         <code-in-the-dim></code-in-the-dim>

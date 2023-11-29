@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
-import { EditorManager } from "./editor-manager";
-import { EditorConfigurationUpdated } from "./events/editor-configuration-updated";
+import { EditorManager } from "./editor-manager.js";
+import { EditorConfigurationUpdated } from "./events/editor-configuration-updated.js";
 
 export class CoderName extends LitElement {
 

@@ -1,12 +1,12 @@
-import { EditorInitialized } from "./events/editor-initialized-event";
+import { EditorInitialized } from "./events/editor-initialized-event.js";
 import { Compartment } from "@codemirror/state";
 import { keymap } from "@codemirror/view";
 import { defaultKeymap } from "@codemirror/commands";
 import { vim } from "@replit/codemirror-vim";
-import { getUrlParam, setUrlParam } from "./url";
-import { EditorKeymapChanged } from "./events/editor-keymap-changed";
-import { EditorConfigurationUpdated } from "./events/editor-configuration-updated";
-import { EditorSnapshot } from "./events/editor-snapshot";
+import { getUrlParam, setUrlParam } from "./url.js";
+import { EditorKeymapChanged } from "./events/editor-keymap-changed.js";
+import { EditorConfigurationUpdated } from "./events/editor-configuration-updated.js";
+import { EditorSnapshot } from "./events/editor-snapshot.js";
 
 export const EDITOR_SNAPSHOT_INTERVAL = 3000;
 
@@ -55,7 +55,7 @@ class EditorManager extends EventTarget {
     }
 
     requestCoderName() {
-        const response = prompt("Please provide us your coder name", this.#state.coderName);
+        const response = prompt("Please provide us your coder name", this.#state.coderName ?? "");
         if (!response) {
             this.requestCoderName();
             return;
