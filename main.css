@@ -5,3 +5,13 @@ html, body {
 label {
     color: #FFF;
 }
+
+#bottom-buttons {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}

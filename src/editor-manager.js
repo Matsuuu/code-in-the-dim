@@ -55,13 +55,14 @@ class EditorManager extends EventTarget {
     }
 
     requestCoderName() {
-        const response = prompt("Please provide us your coder name");
+        const response = prompt("Please provide us your coder name", this.#state.coderName);
         if (!response) {
             this.requestCoderName();
             return;
         }
         setUrlParam("coderName", response);
         this.#state.coderName = response;
+        this.onUpdate();
     }
 
     getCoderName() {
@@ -83,6 +84,10 @@ class EditorManager extends EventTarget {
         this.#state.editor.dispatch({
             effects: keymapCompartment.reconfigure(this.getKeymap().config)
         })
+        this.onUpdate();
+    }
+
+    onUpdate() {
         this.broadcast(new EditorConfigurationUpdated());
     }
 

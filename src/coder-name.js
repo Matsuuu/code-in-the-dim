@@ -19,6 +19,9 @@ export class CoderName extends LitElement {
         EditorManager.addEventListener(EditorConfigurationUpdated.eventName, () => {
             this.coderName = EditorManager.getCoderName();
         });
+        this.addEventListener("click", () => {
+            EditorManager.requestCoderName();
+        })
     }
 
     render() {
@@ -34,9 +37,6 @@ export class CoderName extends LitElement {
                 padding: 0.5rem 1rem;
                 font-size: 3rem;
                 background: rgb(224, 108, 117);
-                position: absolute;
-                bottom: 0;
-                left: 0;
             }
 
         p {
