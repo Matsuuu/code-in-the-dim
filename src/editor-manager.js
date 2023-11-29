@@ -6,7 +6,9 @@ import { vim } from "@replit/codemirror-vim";
 import { getUrlParam } from "./url";
 import { EditorKeymapChanged } from "./events/editor-keymap-changed";
 import { EditorConfigurationUpdated } from "./events/editor-configuration-updated";
+import { EditorSnapshot } from "./events/editor-snapshot";
 
+export const EDITOR_SNAPSHOT_INTERVAL = 3000;
 
 // Toggleables
 export const keymapCompartment = new Compartment;
@@ -37,6 +39,7 @@ class EditorManager extends EventTarget {
 
         this.addEventListener(EditorInitialized.eventName, this.onEditorInitialized.bind(this));
         this.addEventListener(EditorKeymapChanged.eventName, this.onEditorKeymapChanged.bind(this));
+        this.addEventListener(EditorSnapshot.eventName, this.onEditorSnapshot.bind(this));
     }
 
     /**
@@ -78,6 +81,13 @@ class EditorManager extends EventTarget {
         this.#state.keymap = event.keymap;
         // As we set it above to state, we can utilize the setter below.
         this.setKeymap(this.getKeymap().config);
+    }
+
+    /**
+     * @param {EditorSnapshot} event
+     */
+    onEditorSnapshot(event) {
+        // TODO: Send to some server
     }
 }
 

@@ -7,8 +7,9 @@ import { LitElement, html } from "lit";
 import { EditorTheme } from "./editor-theme.js";
 import { oneDark } from "@codemirror/theme-one-dark";
 import "./editor-controls.js";
-import { EditorManager, keymapCompartment } from "./editor-manager.js";
+import { EDITOR_SNAPSHOT_INTERVAL, EditorManager, keymapCompartment } from "./editor-manager.js";
 import { EditorInitialized } from "./events/editor-initialized-event.js";
+import { EditorSnapshot } from "./events/editor-snapshot.js";
 
 export class EditorElement extends LitElement {
     static get properties() {
@@ -39,7 +40,6 @@ export class EditorElement extends LitElement {
     }
 
     initializeEditor() {
-
         this.editor = new EditorView({
             doc: this.content,
             extensions: [
@@ -54,6 +54,12 @@ export class EditorElement extends LitElement {
         });
 
         EditorManager.dispatchEvent(new EditorInitialized(this.editor));
+
+        setInterval(this.sendCurrentSnapshot.bind(this), EDITOR_SNAPSHOT_INTERVAL);
+    }
+
+    sendCurrentSnapshot() {
+        EditorManager.dispatchEvent(new EditorSnapshot(this.editor.state.doc.toString()));
     }
 
 
