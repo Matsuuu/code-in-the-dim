@@ -1,7 +1,19 @@
 import { LitElement, css, html } from "lit";
 import { keymaps, setEditorKeymap } from "./editor.js";
+import { EditorManager } from "./editor-manager.js";
 
 export class EditorControls extends LitElement {
+
+    static get properties() {
+        return {
+            keymap: { type: String }
+        }
+    }
+
+    constructor() {
+        super();
+        this.keymap = keymaps[0].name;
+    }
 
     /**
      * @param {string} mapName
@@ -9,7 +21,7 @@ export class EditorControls extends LitElement {
      */
     setKeymap(mapName, mapConfig) {
         this.keymap = mapName;
-        setEditorKeymap(this.editor, mapConfig);
+        setEditorKeymap(EditorManager.getEditor(), mapConfig);
     }
 
     render() {

@@ -1,4 +1,4 @@
-import { defaultKeymap, indentWithTab } from "@codemirror/commands";
+import { indentWithTab } from "@codemirror/commands";
 import { keymap } from "@codemirror/view";
 import { EditorView, basicSetup } from "codemirror";
 import { css as codemirrorCss } from "@codemirror/lang-css";
@@ -8,8 +8,10 @@ import { keymapCompartment, keymaps } from "./editor.js";
 import { EditorTheme } from "./editor-theme.js";
 import { oneDark } from "@codemirror/theme-one-dark";
 import "./editor-controls.js";
+import { EditorManager } from "./editor-manager.js";
+import { EditorInitialized } from "./events/editor-initialized-event.js";
 
-export class CodeInTheDim extends LitElement {
+export class EditorElement extends LitElement {
     static get properties() {
         return {
             editor: { type: Object },
@@ -54,6 +56,8 @@ export class CodeInTheDim extends LitElement {
             ],
             parent: this.shadowRoot.querySelector("#editor"),
         });
+
+        EditorManager.dispatchEvent(new EditorInitialized(this.editor));
     }
 
 
@@ -70,8 +74,4 @@ export class CodeInTheDim extends LitElement {
             EditorTheme
         ]
     }
-}
-
-if (!customElements.get("code-in-the-dim")) {
-    customElements.define("code-in-the-dim", CodeInTheDim);
 }
