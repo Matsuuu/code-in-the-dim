@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run start:no-resolve -- --node-resolve",
-    "start:no-resolve": "web-dev-server --open --watch --app-index index.html"
+    "start:no-resolve": "web-dev-server --open --watch --app-index index.html",
+    "build-import-maps": "jspm link index.html -o index.html",
+    "postinstall": "npm run build-import-maps"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,7 @@
     "lit": "^3.1.0"
   },
   "devDependencies": {
-    "@web/dev-server": "^0.4.1"
+    "@web/dev-server": "^0.4.1",
+    "jspm": "^3.1.2"
   }
 }
