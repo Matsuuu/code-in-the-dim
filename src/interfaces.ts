@@ -11,6 +11,7 @@ declare global {
         CODE_IN_THE_DARK_CONFIGURATION: {
             rules: string,
             assets: Array<Asset>
+            referenceImage: string
         }
     }
 }
