@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
-import { ButtonTheme } from "./editor-theme";
-import { EditorManager, LOCAL_STORAGE_SAVE_KEY } from "./editor-manager";
-import { EditorElement } from "./editor-element";
+import { ButtonTheme } from "./editor-theme.js";
+import { EditorManager } from "./editor-manager.js";
+import { EditorElement } from "./editor-element.js";
 
 export class FinishButton extends LitElement {
 
