@@ -27,11 +27,12 @@ export class ReferenceImage extends LitElement {
         return css`
             :host {
                 display: flex;
+                cursor: pointer;
             }
 
             :host([show]) {
                 position: fixed;
-                height: 85%;
+                height: 95%;
                 aspect-ratio: 1;
                 inset: 0;
                 margin: auto;
