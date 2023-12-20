@@ -7,7 +7,7 @@ import { LitElement, html } from "lit";
 import { EditorTheme } from "./editor-theme.js";
 import { oneDark } from "@codemirror/theme-one-dark";
 import "./editor-controls.js";
-import { EDITOR_SNAPSHOT_INTERVAL, EditorManager, keymapCompartment } from "./editor-manager.js";
+import { EDITOR_SNAPSHOT_INTERVAL, EditorManager, LOCAL_STORAGE_SAVE_KEY, keymapCompartment } from "./editor-manager.js";
 import { EditorInitialized } from "./events/editor-initialized-event.js";
 import { EditorSnapshot } from "./events/editor-snapshot.js";
 
@@ -22,6 +22,7 @@ export class EditorElement extends LitElement {
         super();
 
         this.editor = undefined;
+
         this.content = `
 <style>
     p {
@@ -29,14 +30,20 @@ export class EditorElement extends LitElement {
     }
 </style>
 
-<div class="foo">
-    <p>This is a paragraph</p>
+<div class="delete-me">
+    <p>Good luck and have fun!</p>
 </div>
 `;
+
+        const localStoragedContent = localStorage.getItem(LOCAL_STORAGE_SAVE_KEY);
+        if (localStoragedContent) {
+            this.content = localStoragedContent;
+        }
     }
 
     firstUpdated() {
         this.initializeEditor();
+
     }
 
     initializeEditor() {

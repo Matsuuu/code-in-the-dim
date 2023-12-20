@@ -9,6 +9,7 @@ import { EditorConfigurationUpdated } from "./events/editor-configuration-update
 import { EditorSnapshot } from "./events/editor-snapshot.js";
 
 export const EDITOR_SNAPSHOT_INTERVAL = 3000;
+export const LOCAL_STORAGE_SAVE_KEY = "code-in-the-dim-code";
 
 // Toggleables
 export const keymapCompartment = new Compartment;
@@ -112,6 +113,7 @@ class EditorManager extends EventTarget {
         }
 
         if (event instanceof EditorSnapshot) {
+            localStorage.setItem(LOCAL_STORAGE_SAVE_KEY, event.content);
             // TODO: Send to some server
         }
     }
