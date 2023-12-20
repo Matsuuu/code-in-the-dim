@@ -28,6 +28,7 @@ export class ReferenceImage extends LitElement {
             :host {
                 display: flex;
                 cursor: pointer;
+                margin-bottom: 1rem;
             }
 
             :host([show]) {

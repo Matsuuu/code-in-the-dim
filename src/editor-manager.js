@@ -96,6 +96,10 @@ class EditorManager extends EventTarget {
         return keymaps.find(km => km.name === this.#state.keymap) ?? keymaps[0];
     }
 
+    getCode() {
+        return localStorage.getItem(LOCAL_STORAGE_SAVE_KEY);
+    }
+
     /**
      * @param {Event} event
      */

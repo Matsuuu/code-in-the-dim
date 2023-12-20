@@ -35,7 +35,7 @@ export class EditorElement extends LitElement {
 </div>
 `;
 
-        const localStoragedContent = localStorage.getItem(LOCAL_STORAGE_SAVE_KEY);
+        const localStoragedContent = EditorManager.getCode();
         if (localStoragedContent) {
             this.content = localStoragedContent;
         }
