@@ -6,9 +6,11 @@ https://twitter.com/JoelBesada/status/670343885655293952
 import { EditorView } from "codemirror";
 import { EditorManager } from "./editor-manager";
 
+const SHAKE_ENABLED = true;
+
 let shakeTime = 0,
     shakeTimeMax = 0,
-    shakeIntensity = 5,
+    shakeIntensity = 2,
     lastTime = 0,
     particles = [],
     particlePointer = 0,
@@ -150,16 +152,24 @@ function throttle(callback, limit) {
     }
 }
 
+const FPS_INTERVAL = 0.02;
+
 function loop() {
     if (!isActive) { return; }
-
-    ctx.clearRect(0, 0, w, h);
 
     // get the time past the previous frame
     let current_time = new Date().getTime();
     if (!lastTime) lastTime = current_time;
     let dt = (current_time - lastTime) / 1000;
+
+    if (dt < FPS_INTERVAL) {
+        requestAnimationFrame(loop);
+        return;
+    }
     lastTime = current_time;
+
+    ctx.clearRect(0, 0, w, h);
+
 
     if (shakeTime > 0) {
         shakeTime -= dt;
@@ -169,13 +179,13 @@ function loop() {
         EditorManager.getEditor().dom.style.transform = 'translate(' + shakeX + 'px,' + shakeY + 'px)';
     }
     drawParticles();
-    requestAnimationFrame(() => loop());
+    requestAnimationFrame(loop);
 }
 
 function onCodeMirrorChange() {
     const editor = EditorManager.getEditor();
     // If shake
-    if (true) {
+    if (SHAKE_ENABLED) {
         throttledShake(editor, 0.3);
     }
     throttledSpawnParticles(editor);
