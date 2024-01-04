@@ -4,7 +4,7 @@ https://twitter.com/JoelBesada/status/670343885655293952
  */
 
 import { EditorView } from "codemirror";
-import { EditorManager } from "./editor-manager";
+import { EditorManager } from "./editor-manager.js";
 
 const SHAKE_ENABLED = true;
 
