@@ -7,9 +7,10 @@ import { LitElement, html } from "lit";
 import { EditorTheme } from "./editor-theme.js";
 import { oneDark } from "@codemirror/theme-one-dark";
 import "./editor-controls.js";
-import { EDITOR_SNAPSHOT_INTERVAL, EditorManager, LOCAL_STORAGE_SAVE_KEY, keymapCompartment } from "./editor-manager.js";
+import { EDITOR_SNAPSHOT_INTERVAL, EditorManager, keymapCompartment } from "./editor-manager.js";
 import { EditorInitialized } from "./events/editor-initialized-event.js";
 import { EditorSnapshot } from "./events/editor-snapshot.js";
+import { initPowerMode } from "./power-mode.js";
 
 export class EditorElement extends LitElement {
     static get properties() {
@@ -47,6 +48,7 @@ export class EditorElement extends LitElement {
     }
 
     initializeEditor() {
+
         this.editor = new EditorView({
             doc: this.content,
             extensions: [
@@ -55,12 +57,15 @@ export class EditorElement extends LitElement {
                 keymap.of([indentWithTab]),
                 codemirrorCss(),
                 codemirrorHtml(),
-                oneDark
+                oneDark,
+                initPowerMode()
             ],
             parent: this.shadowRoot.querySelector("#editor"),
         });
 
+
         EditorManager.dispatchEvent(new EditorInitialized(this.editor));
+
 
         this.snapshotInterval = setInterval(this.sendCurrentSnapshot.bind(this), EDITOR_SNAPSHOT_INTERVAL);
     }
