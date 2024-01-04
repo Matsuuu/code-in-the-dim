@@ -4,6 +4,7 @@ import { EditorManager, keymaps } from './editor-manager.js';
 import { setUrlParam } from './url.js';
 import { EditorKeymapChanged } from './events/editor-keymap-changed.js';
 import { EditorConfigurationUpdated } from './events/editor-configuration-updated.js';
+import { TogglePowerMode } from './events/toggle-power-mode.js';
 
 export class EditorControls extends LitElement {
     static get properties() {
@@ -28,6 +29,12 @@ export class EditorControls extends LitElement {
         this.keymap = mapName;
         EditorManager.dispatchEvent(new EditorKeymapChanged(this.keymap));
         setUrlParam('keymap', mapName);
+    }
+
+    togglePowerMode(ev) {
+        console.log(ev);
+        const checkbox = this.shadowRoot.querySelector("[name='power-mode']");
+        EditorManager.dispatchEvent(new TogglePowerMode(checkbox.checked));
     }
 
     render() {
@@ -57,6 +64,12 @@ export class EditorControls extends LitElement {
                         `,
         )}
                 </div>
+                <div class="others">
+                    <label>
+                        Power Mode
+                        <input @input=${this.togglePowerMode} ?checked=${EditorManager.isPowerModeOn()} type="checkbox" name="power-mode" />
+                    </label>
+                </div>
             </section>
         `;
     }
@@ -70,7 +83,7 @@ export class EditorControls extends LitElement {
                     padding: 1rem;
                     border-radius: 4px;
 
-                    position: absolute;
+                    position: fixed;
                     top: 3rem;
                     right: 3rem;
                 }

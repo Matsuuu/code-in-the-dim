@@ -7,6 +7,8 @@ import { getUrlParam, setUrlParam } from "./url.js";
 import { EditorKeymapChanged } from "./events/editor-keymap-changed.js";
 import { EditorConfigurationUpdated } from "./events/editor-configuration-updated.js";
 import { EditorSnapshot } from "./events/editor-snapshot.js";
+import { TogglePowerMode } from "./events/toggle-power-mode.js";
+import { restartPowerMode } from "./power-mode.js";
 
 export const EDITOR_SNAPSHOT_INTERVAL = 3000;
 export const LOCAL_STORAGE_SAVE_KEY = "code-in-the-dim-code";
@@ -32,13 +34,15 @@ class EditorManager extends EventTarget {
     #state = {
         editor: undefined,
         keymap: "Regular",
-        coderName: undefined
+        coderName: undefined,
+        powerModeOn: false
     };
 
     #EVENTS = [
         EditorInitialized,
         EditorKeymapChanged,
-        EditorSnapshot
+        EditorSnapshot,
+        TogglePowerMode
     ];
 
     constructor() {
@@ -120,6 +124,18 @@ class EditorManager extends EventTarget {
             localStorage.setItem(LOCAL_STORAGE_SAVE_KEY, event.content);
             // TODO: Send to some server
         }
+
+        if (event instanceof TogglePowerMode) {
+            this.#state.powerModeOn = event.powerModeOn;
+            console.log("PowerModeOn: ", this.#state.powerModeOn)
+            if (this.isPowerModeOn()) {
+                restartPowerMode();
+            }
+        }
+    }
+
+    isPowerModeOn() {
+        return this.#state.powerModeOn;
     }
 }
 

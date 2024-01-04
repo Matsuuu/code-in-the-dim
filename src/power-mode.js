@@ -24,8 +24,7 @@ let shakeTime = 0,
     },
     w = window.innerWidth,
     h = window.innerHeight,
-    effect = 1,
-    isActive = false;
+    effect = 1;
 
 let codemirrors = [], cmNode;
 let canvas, ctx;
@@ -155,7 +154,7 @@ function throttle(callback, limit) {
 const FPS_INTERVAL = 0.02;
 
 function loop() {
-    if (!isActive) { return; }
+    if (!EditorManager.isPowerModeOn()) { return; }
 
     // get the time past the previous frame
     let current_time = new Date().getTime();
@@ -194,7 +193,6 @@ function onCodeMirrorChange() {
 
 
 export function initPowerMode() {
-    isActive = true;
 
     if (!canvas) {
         canvas = document.createElement('canvas');
@@ -222,14 +220,6 @@ export function initPowerMode() {
     return inputHandler;
 }
 
-function destroy(editor) {
-    editor.off('change', onCodeMirrorChange);
-    codemirrors.splice(codemirrors.indexOf(editor), 1);
-    if (!codemirrors.length) {
-        isActive = false;
-        if (canvas) {
-            canvas.remove();
-            canvas = null;
-        }
-    }
+export function restartPowerMode() {
+    loop();
 }
