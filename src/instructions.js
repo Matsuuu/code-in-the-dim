@@ -9,15 +9,19 @@ export class CodingInstructions extends LitElement {
     }
 
     render() {
+        const {assets, rules} = window.CODE_IN_THE_DARK_CONFIGURATION;
         return html`
             <button @click=${() => (this.open = !this.open)}>Instructions</button>
 
             <section>
-                <p>${window.CODE_IN_THE_DARK_CONFIGURATION.rules}</p>
+                <p>${rules}</p>
                 <label>--- Assets --- </label>
                 <ul>
-                    ${window.CODE_IN_THE_DARK_CONFIGURATION.assets.map(
-                        asset => html` <li>${asset.name} (${asset.size})</li> `,
+                    ${assets.map(
+                        asset => html`<li>
+                          ${asset.name} (${asset.description})<br/>
+                          <input readonly value="${asset.url}" />
+                        </li>`,
                     )}
                 </ul>
             </section>

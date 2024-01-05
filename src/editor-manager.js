@@ -11,7 +11,7 @@ import { TogglePowerMode } from "./events/toggle-power-mode.js";
 import { restartPowerMode } from "./power-mode.js";
 
 export const EDITOR_SNAPSHOT_INTERVAL = 3000;
-export const LOCAL_STORAGE_SAVE_KEY = "code-in-the-dim-code";
+export const LOCAL_STORAGE_SAVE_KEY = `code-in-the-dim-code-${window.CODE_IN_THE_DARK_CONFIGURATION?.roundId ?? "default"}`;
 
 // Toggleables
 export const keymapCompartment = new Compartment();
