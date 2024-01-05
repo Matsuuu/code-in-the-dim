@@ -1,6 +1,19 @@
+@font-face {
+    src: url("./assets/ibmplexsans-regular.woff2") format("woff2");
+    font-family: "IBM Plex Sans";
+}
+
+@font-face {
+    src: url("./assets/ibmplexsans-bold.woff2") format("woff2");
+    font-family: "IBM Plex Sans";
+    font-weight: bold;
+}
+
 html,
-body {
+body,
+button {
     background: #282c34;
+    font-family: 'IBM Plex Sans', sans-serif;
 }
 
 label {

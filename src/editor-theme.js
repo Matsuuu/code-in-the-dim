@@ -18,5 +18,6 @@ export const ButtonTheme = css`
         font-size: 1.4rem;
         margin-bottom: 0.2rem;
         cursor: pointer;
+        font-family: inherit;
     }
 `;
