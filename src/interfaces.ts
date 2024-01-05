@@ -10,10 +10,10 @@ export interface EditorManagerProps {
 declare global {
     interface Window {
         CODE_IN_THE_DARK_CONFIGURATION: {
-            rules: string,
-            assets: Array<Asset>
-            referenceImage: string
-        }
+            rules: string;
+            assets: Array<Asset>;
+            referenceImage: string;
+        };
     }
 }
 

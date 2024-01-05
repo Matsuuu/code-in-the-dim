@@ -1,5 +1,4 @@
 export class EditorKeymapChanged extends Event {
-
     static eventName = "editor-keymap-changed";
 
     /**

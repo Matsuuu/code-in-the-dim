@@ -1,7 +1,6 @@
 import { EditorView } from "codemirror";
 
 export class EditorInitialized extends Event {
-
     static eventName = "editor-initialized";
 
     /**

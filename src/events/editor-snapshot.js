@@ -1,5 +1,4 @@
 export class EditorSnapshot extends Event {
-
     static eventName = "editor-snapshot";
 
     /**
