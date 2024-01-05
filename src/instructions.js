@@ -41,7 +41,9 @@ export class CodingInstructions extends LitElement {
                     top: 10%;
                     right: 10%;
                     width: 70%;
-                    background: #fff;
+                    background: var(--citd-instructions-bg);
+                    color: var(--citd-instructions-fg);
+                    backdrop-filter: blur(5px);
                     padding: 2rem;
                 }
 

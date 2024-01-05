@@ -9,15 +9,28 @@
     font-weight: bold;
 }
 
+:root {
+    --citd-bg: #282c34;
+    --citd-fg: #fff;
+    --citd-button-bg: #c77b20;
+    --citd-button-fg: #fff;
+    --citd-name-bg: #b71540;
+    --citd-name-fg: #fff;
+    --citd-popover-bg: rgba(255, 255, 255, 0.3);
+    --citd-popover-fg: #fff;
+    --citd-instructions-bg: rgba(204, 204, 204, 0.7);
+    --citd-instructions-fg: #000;
+}
+
 html,
 body,
 button {
-    background: #282c34;
+    background: var(--citd-bg);
     font-family: 'IBM Plex Sans', sans-serif;
 }
 
 label {
-    color: #fff;
+    color: var(--citd-fg);
 }
 
 #bottom-buttons {

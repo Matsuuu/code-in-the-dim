@@ -31,9 +31,13 @@ export class CoderName extends LitElement {
         return css`
             :host {
                 display: block;
-                padding: 0.5rem 1rem;
+                padding-right: 1rem;
+                padding-left: 1rem;
+                padding-bottom: 0.5rem;
                 font-size: 3rem;
-                background: rgb(224, 108, 117);
+                background: var(--citd-name-bg);
+                color: var(--citd-name-fg);
+                cursor: text;
             }
 
             p {
