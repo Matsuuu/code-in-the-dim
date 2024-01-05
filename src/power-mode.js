@@ -95,8 +95,8 @@ function effect1(particle) {
 
     particle.alpha *= PARTICLE_ALPHA_FADEOUT;
 
-    ctx.fillStyle =
-        "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.alpha + ")";
+    const [r, g, b] = particle.color;
+    ctx.fillStyle = `rgba(${r},${g},${b},${particle.alpha})`;
     ctx.fillRect(Math.round(particle.x - 1), Math.round(particle.y - 1), particle.size, particle.size);
 }
 
@@ -111,8 +111,8 @@ function effect2(particle) {
     particle.vy += Math.cos(particle.theta) * 0.1;
     particle.size *= 0.96;
 
-    ctx.fillStyle =
-        "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.alpha + ")";
+    const [r, g, b] = particle.color;
+    ctx.fillStyle = `rgba(${r},${g},${b},${particle.alpha})`;
     ctx.beginPath();
     ctx.arc(Math.round(particle.x - 1), Math.round(particle.y - 1), particle.size, 0, 2 * Math.PI);
     ctx.fill();
@@ -189,7 +189,7 @@ function loop() {
         let magnitude = (shakeTime / shakeTimeMax) * shakeIntensity;
         let shakeX = random(-magnitude, magnitude);
         let shakeY = random(-magnitude, magnitude);
-        EditorManager.getEditor().dom.style.transform = "translate(" + shakeX + "px," + shakeY + "px)";
+        EditorManager.getEditor().dom.style.transform = `translate(${shakeX}px,${shakeY}px)`;
     }
     drawParticles();
     requestAnimationFrame(loop);

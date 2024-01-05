@@ -83,14 +83,17 @@ export class EditorControls extends LitElement {
         return [
             css`
                 #controls {
-                    color: #fff;
-                    background: rgba(255, 255, 255, 0.3);
+                    color: var(--citd-popover-fg);
+                    background: var(--citd-popover-bg);
                     padding: 1rem;
                     border-radius: 4px;
 
                     position: fixed;
                     top: 3rem;
                     right: 3rem;
+                }
+                #controls .others {
+                    margin-top: 1rem;
                 }
 
                 #controls-toggle button {

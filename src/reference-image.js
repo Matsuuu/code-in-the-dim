@@ -1,9 +1,8 @@
-import { LitElement, css, html } from "lit";
-import { when } from "lit/directives/when.js";
+import {css, html, LitElement} from "lit";
 
 export class ReferenceImage extends LitElement {
     referenceImageNotSet() {
-        return window.CODE_IN_THE_DARK_CONFIGURATION.referenceImage === undefined;
+        return !window.CODE_IN_THE_DARK_CONFIGURATION.referenceImage;
     }
 
     toggleImage() {
@@ -17,10 +16,9 @@ export class ReferenceImage extends LitElement {
     }
 
     render() {
-        return html`
-            <img src="${window.CODE_IN_THE_DARK_CONFIGURATION.referenceImage}" />
-            ${when(this.referenceImageNotSet(), () => html`<p>Reference image not set in configuration</p>`)}
-        `;
+        return this.referenceImageNotSet() ?
+            html`<p>Reference image not set in configuration</p>` :
+            html`<img src="${window.CODE_IN_THE_DARK_CONFIGURATION.referenceImage}"/>`;
     }
 
     static get styles() {

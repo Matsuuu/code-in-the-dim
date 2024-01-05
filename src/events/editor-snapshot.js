@@ -3,9 +3,11 @@ export class EditorSnapshot extends Event {
 
     /**
      * @param {string} content
+     * @param mode {'final'|'draft'}
      */
-    constructor(content) {
+    constructor(content, mode) {
         super(EditorSnapshot.eventName);
         this.content = content;
+        this.mode = mode;
     }
 }

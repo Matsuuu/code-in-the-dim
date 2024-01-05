@@ -11,12 +11,9 @@ const RULES = `
 Good luck and most important of all; have fun!
 `;
 
-const ASSETS = [{ name: "turkufrontend-logo.png", size: "400x200" }];
-
-const REFERERENCE_IMAGE = "assets/page.png";
-
 window.CODE_IN_THE_DARK_CONFIGURATION = {
+    assets: [{ name: "turkufrontend-logo.png", url: "...", description: "400x200" }],
+    referenceImage: "assets/page.png",
+    roundId: "default",
     rules: RULES,
-    assets: ASSETS,
-    referenceImage: REFERERENCE_IMAGE,
 };
