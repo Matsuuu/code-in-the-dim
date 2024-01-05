@@ -34,7 +34,7 @@ export class EditorElement extends LitElement {
 <div class="delete-me">
     <p>Good luck and have fun!</p>
 </div>
-`;
+`.trim();
 
         const localStoragedContent = EditorManager.getCode();
         if (localStoragedContent) {
