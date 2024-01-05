@@ -63,11 +63,16 @@ export class EditorElement extends LitElement {
 
         EditorManager.dispatchEvent(new EditorInitialized(this.editor));
 
-        this.snapshotInterval = setInterval(this.sendCurrentSnapshot.bind(this), EDITOR_SNAPSHOT_INTERVAL);
+        const sendDraftSnapshot = this.sendCurrentSnapshot.bind(this, "draft");
+        this.snapshotInterval = setInterval(sendDraftSnapshot, EDITOR_SNAPSHOT_INTERVAL);
     }
 
-    sendCurrentSnapshot() {
-        EditorManager.dispatchEvent(new EditorSnapshot(this.editor.state.doc.toString()));
+    /**
+     * @param mode {'final'|'draft'}
+     */
+    sendCurrentSnapshot(mode) {
+        const content = this.editor.state.doc.toString();
+        EditorManager.dispatchEvent(new EditorSnapshot(content, mode));
     }
 
     disconnectedCallback() {

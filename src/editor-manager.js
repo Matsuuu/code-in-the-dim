@@ -10,7 +10,7 @@ import { EditorSnapshot } from "./events/editor-snapshot.js";
 import { TogglePowerMode } from "./events/toggle-power-mode.js";
 import { restartPowerMode } from "./power-mode.js";
 
-export const EDITOR_SNAPSHOT_INTERVAL = 3000;
+export const EDITOR_SNAPSHOT_INTERVAL = 10000;
 export const LOCAL_STORAGE_SAVE_KEY = `code-in-the-dim-code-${window.CODE_IN_THE_DARK_CONFIGURATION?.roundId ?? "default"}`;
 
 // Toggleables
@@ -117,7 +117,7 @@ class EditorManager extends EventTarget {
 
         if (event instanceof EditorSnapshot) {
             localStorage.setItem(LOCAL_STORAGE_SAVE_KEY, event.content);
-            // TODO: Send to some server
+            this.sendSnapshot(event.mode, event.content);
         }
 
         if (event instanceof TogglePowerMode) {
@@ -132,6 +132,37 @@ class EditorManager extends EventTarget {
     isPowerModeOn() {
         return this.#state.powerModeOn;
     }
+
+    /**
+     * Send a snapshot to the server.
+     *
+     * @param mode {'final'|'draft'}
+     * @param content {string}
+     */
+    sendSnapshot = async (mode, content) => {
+        const { saveUrl, saveToken } = window.CODE_IN_THE_DARK_CONFIGURATION ?? {};
+        if (mode === "final" && (!saveUrl || !saveToken)) {
+            alert("There is no saveUrl or saveToken in the configuration. Please contact the organizer.");
+            return;
+        }
+        const formData = new FormData();
+        formData.append("mode", mode);
+        formData.append("content", content);
+        formData.append("author", manager.getCoderName());
+        formData.append("token", saveToken);
+        const response = await fetch(saveUrl, {
+            method: "POST",
+            body: formData,
+        });
+        if (!response.ok) {
+            if (mode === "final") {
+                alert("Something went wrong while saving your code. Please contact the organizer.");
+            } else {
+                console.error("Draft saving failed.");
+            }
+        }
+        return response;
+    };
 }
 
 const manager = new EditorManager();
