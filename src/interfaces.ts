@@ -7,17 +7,23 @@ export interface EditorManagerProps {
     powerModeOn: boolean;
 }
 
-declare global {
-    interface Window {
-        CODE_IN_THE_DARK_CONFIGURATION: {
-            rules: string;
-            assets: Array<Asset>;
-            referenceImage: string;
-        };
-    }
+export interface CITDConfiguration {
+    roundId: string;
+    assets: Array<Asset>;
+    referenceImage?: string;
+    rules: string;
+    saveToken?: string;
+    saveUrl?: string;
 }
 
 interface Asset {
     name: string;
-    size: string;
+    description: string;
+    url: string;
+}
+
+declare global {
+    interface Window {
+        CODE_IN_THE_DARK_CONFIGURATION: CITDConfiguration;
+    }
 }
