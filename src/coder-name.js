@@ -3,11 +3,10 @@ import { EditorManager } from "./editor-manager.js";
 import { EditorConfigurationUpdated } from "./events/editor-configuration-updated.js";
 
 export class CoderName extends LitElement {
-
     static get properties() {
         return {
-            coderName: { type: String, attribute: "coder-name" }
-        }
+            coderName: { type: String, attribute: "coder-name" },
+        };
     }
 
     constructor() {
@@ -21,13 +20,11 @@ export class CoderName extends LitElement {
         });
         this.addEventListener("click", () => {
             EditorManager.requestCoderName();
-        })
+        });
     }
 
     render() {
-        return html`
-            <p>${this.coderName}</p>
-        `;
+        return html`<p>${this.coderName}</p>`;
     }
 
     static get styles() {
@@ -39,9 +36,9 @@ export class CoderName extends LitElement {
                 background: rgb(224, 108, 117);
             }
 
-        p {
-            margin: 0;
-        }
+            p {
+                margin: 0;
+            }
         `;
     }
 }

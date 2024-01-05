@@ -1,9 +1,10 @@
-html, body {
+html,
+body {
     background: #282c34;
 }
 
 label {
-    color: #FFF;
+    color: #fff;
 }
 
 #bottom-buttons {

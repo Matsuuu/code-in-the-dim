@@ -1,10 +1,10 @@
-import { LitElement, css, html } from 'lit';
-import { when } from 'lit/directives/when.js';
-import { EditorManager, keymaps } from './editor-manager.js';
-import { setUrlParam } from './url.js';
-import { EditorKeymapChanged } from './events/editor-keymap-changed.js';
-import { EditorConfigurationUpdated } from './events/editor-configuration-updated.js';
-import { TogglePowerMode } from './events/toggle-power-mode.js';
+import { LitElement, css, html } from "lit";
+import { when } from "lit/directives/when.js";
+import { EditorManager, keymaps } from "./editor-manager.js";
+import { setUrlParam } from "./url.js";
+import { EditorKeymapChanged } from "./events/editor-keymap-changed.js";
+import { EditorConfigurationUpdated } from "./events/editor-configuration-updated.js";
+import { TogglePowerMode } from "./events/toggle-power-mode.js";
 
 export class EditorControls extends LitElement {
     static get properties() {
@@ -28,7 +28,7 @@ export class EditorControls extends LitElement {
     setKeymap(mapName) {
         this.keymap = mapName;
         EditorManager.dispatchEvent(new EditorKeymapChanged(this.keymap));
-        setUrlParam('keymap', mapName);
+        setUrlParam("keymap", mapName);
     }
 
     togglePowerMode(ev) {
@@ -40,7 +40,7 @@ export class EditorControls extends LitElement {
     render() {
         return html`
             <section id="controls-toggle">
-                <button @click=${() => this.open = !this.open}>⚙️</button>
+                <button @click=${() => (this.open = !this.open)}>⚙️</button>
             </section>
             ${when(this.open, () => this.renderControls())}
         `;
@@ -51,7 +51,7 @@ export class EditorControls extends LitElement {
             <section id="controls">
                 <div class="control keymap-control">
                     ${keymaps.map(
-            km => html`
+                        km => html`
                             <label for="${km.name}">${km.name}</label>
                             <input
                                 @change=${() => this.setKeymap(km.name)}
@@ -62,12 +62,17 @@ export class EditorControls extends LitElement {
                                 value="${km.name}"
                             />
                         `,
-        )}
+                    )}
                 </div>
                 <div class="others">
                     <label>
                         Power Mode
-                        <input @input=${this.togglePowerMode} ?checked=${EditorManager.isPowerModeOn()} type="checkbox" name="power-mode" />
+                        <input
+                            @input=${this.togglePowerMode}
+                            ?checked=${EditorManager.isPowerModeOn()}
+                            type="checkbox"
+                            name="power-mode"
+                        />
                     </label>
                 </div>
             </section>
@@ -103,6 +108,6 @@ export class EditorControls extends LitElement {
     }
 }
 
-if (!customElements.get('editor-controls')) {
-    customElements.define('editor-controls', EditorControls);
+if (!customElements.get("editor-controls")) {
+    customElements.define("editor-controls", EditorControls);
 }

@@ -44,11 +44,9 @@ export class EditorElement extends LitElement {
 
     firstUpdated() {
         this.initializeEditor();
-
     }
 
     initializeEditor() {
-
         this.editor = new EditorView({
             doc: this.content,
             extensions: [
@@ -58,14 +56,12 @@ export class EditorElement extends LitElement {
                 codemirrorCss(),
                 codemirrorHtml(),
                 oneDark,
-                initPowerMode()
+                initPowerMode(),
             ],
             parent: this.shadowRoot.querySelector("#editor"),
         });
 
-
         EditorManager.dispatchEvent(new EditorInitialized(this.editor));
-
 
         this.snapshotInterval = setInterval(this.sendCurrentSnapshot.bind(this), EDITOR_SNAPSHOT_INTERVAL);
     }
@@ -79,18 +75,15 @@ export class EditorElement extends LitElement {
         clearInterval(this.snapshotInterval);
     }
 
-
     render() {
         return html`
-      <section id="editor"></section>
-        
-      <editor-controls></editor-controls>
-    `;
+            <section id="editor"></section>
+
+            <editor-controls></editor-controls>
+        `;
     }
 
     static get styles() {
-        return [
-            EditorTheme
-        ]
+        return [EditorTheme];
     }
 }

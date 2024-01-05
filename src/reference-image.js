@@ -1,5 +1,5 @@
-import { LitElement, css, html } from 'lit';
-import { when } from 'lit/directives/when.js';
+import { LitElement, css, html } from "lit";
+import { when } from "lit/directives/when.js";
 
 export class ReferenceImage extends LitElement {
     referenceImageNotSet() {
@@ -13,7 +13,7 @@ export class ReferenceImage extends LitElement {
     firstUpdated() {
         this.addEventListener("click", () => {
             this.toggleImage();
-        })
+        });
     }
 
     render() {
@@ -52,6 +52,6 @@ export class ReferenceImage extends LitElement {
     }
 }
 
-if (!customElements.get('reference-image')) {
-    customElements.define('reference-image', ReferenceImage);
+if (!customElements.get("reference-image")) {
+    customElements.define("reference-image", ReferenceImage);
 }

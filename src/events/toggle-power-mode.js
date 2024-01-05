@@ -1,5 +1,4 @@
 export class TogglePowerMode extends Event {
-
     static eventName = "toggle-power-mode";
 
     /**

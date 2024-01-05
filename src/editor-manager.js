@@ -14,18 +14,18 @@ export const EDITOR_SNAPSHOT_INTERVAL = 3000;
 export const LOCAL_STORAGE_SAVE_KEY = "code-in-the-dim-code";
 
 // Toggleables
-export const keymapCompartment = new Compartment;
+export const keymapCompartment = new Compartment();
 
 export const keymaps = [
     {
         name: "Regular",
-        config: keymap.of(defaultKeymap)
+        config: keymap.of(defaultKeymap),
     },
     {
         name: "Vim",
-        config: vim()
-    }
-]
+        config: vim(),
+    },
+];
 
 class EditorManager extends EventTarget {
     /**
@@ -35,15 +35,10 @@ class EditorManager extends EventTarget {
         editor: undefined,
         keymap: "Regular",
         coderName: undefined,
-        powerModeOn: false
+        powerModeOn: false,
     };
 
-    #EVENTS = [
-        EditorInitialized,
-        EditorKeymapChanged,
-        EditorSnapshot,
-        TogglePowerMode
-    ];
+    #EVENTS = [EditorInitialized, EditorKeymapChanged, EditorSnapshot, TogglePowerMode];
 
     constructor() {
         super();
@@ -87,8 +82,8 @@ class EditorManager extends EventTarget {
 
     updateKeymap() {
         this.#state.editor.dispatch({
-            effects: keymapCompartment.reconfigure(this.getKeymap().config)
-        })
+            effects: keymapCompartment.reconfigure(this.getKeymap().config),
+        });
         this.onUpdate();
     }
 
@@ -127,7 +122,7 @@ class EditorManager extends EventTarget {
 
         if (event instanceof TogglePowerMode) {
             this.#state.powerModeOn = event.powerModeOn;
-            console.log("PowerModeOn: ", this.#state.powerModeOn)
+            console.log("PowerModeOn: ", this.#state.powerModeOn);
             if (this.isPowerModeOn()) {
                 restartPowerMode();
             }

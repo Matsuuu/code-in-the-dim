@@ -20,13 +20,14 @@ let shakeTime = 0,
     PARTICLE_ALPHA_FADEOUT = 0.96,
     PARTICLE_VELOCITY_RANGE = {
         x: [-1, 1],
-        y: [-3.5, -1.5]
+        y: [-3.5, -1.5],
     },
     w = window.innerWidth,
     h = window.innerHeight,
     effect = 1;
 
-let codemirrors = [], cmNode;
+let codemirrors = [],
+    cmNode;
 let canvas, ctx;
 let throttledShake = throttle(shake, 100);
 let throttledSpawnParticles = throttle(spawnParticles, 100);
@@ -48,14 +49,14 @@ function getRGBComponents(node) {
  * @param {EditorView} cm
  */
 function spawnParticles(cm, type) {
-    let cursor = /** @type { HTMLElement } */(cm.dom.querySelector(".cm-cursor"));
+    let cursor = /** @type { HTMLElement } */ (cm.dom.querySelector(".cm-cursor"));
     const cursorLeft = parseInt(cursor.style.left);
     const cursorTop = parseInt(cursor.style.top);
     let node = cm.root.elementFromPoint(cursorLeft - 5, cursorTop + 5);
 
     let numParticles = random(PARTICLE_NUM_RANGE.min, PARTICLE_NUM_RANGE.max);
     let color = getRGBComponents(node);
-    for (let i = numParticles; i--;) {
+    for (let i = numParticles; i--; ) {
         particles[particlePointer] = createParticle(cursorLeft + 10, cursorTop, color);
         particlePointer = (particlePointer + 1) % MAX_PARTICLES;
     }
@@ -66,21 +67,23 @@ function createParticle(x, y, color) {
         x: x,
         y: y + 10,
         alpha: 1,
-        color: color
+        color: color,
     };
     if (effect === 1) {
         p.size = random(2, 4);
-        p.vx = PARTICLE_VELOCITY_RANGE.x[0] + Math.random() *
-            (PARTICLE_VELOCITY_RANGE.x[1] - PARTICLE_VELOCITY_RANGE.x[0]);
-        p.vy = PARTICLE_VELOCITY_RANGE.y[0] + Math.random() *
-            (PARTICLE_VELOCITY_RANGE.y[1] - PARTICLE_VELOCITY_RANGE.y[0]);
+        p.vx =
+            PARTICLE_VELOCITY_RANGE.x[0] +
+            Math.random() * (PARTICLE_VELOCITY_RANGE.x[1] - PARTICLE_VELOCITY_RANGE.x[0]);
+        p.vy =
+            PARTICLE_VELOCITY_RANGE.y[0] +
+            Math.random() * (PARTICLE_VELOCITY_RANGE.y[1] - PARTICLE_VELOCITY_RANGE.y[0]);
     } else if (effect === 2) {
         p.size = random(2, 8);
         p.drag = 0.92;
         p.vx = random(-3, 3);
         p.vy = random(-3, 3);
         p.wander = 0.15;
-        p.theta = random(0, 360) * Math.PI / 180;
+        p.theta = (random(0, 360) * Math.PI) / 180;
     }
     return p;
 }
@@ -92,7 +95,8 @@ function effect1(particle) {
 
     particle.alpha *= PARTICLE_ALPHA_FADEOUT;
 
-    ctx.fillStyle = 'rgba(' + particle.color[0] + ',' + particle.color[1] + ',' + particle.color[2] + ',' + particle.alpha + ')';
+    ctx.fillStyle =
+        "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.alpha + ")";
     ctx.fillRect(Math.round(particle.x - 1), Math.round(particle.y - 1), particle.size, particle.size);
 }
 
@@ -107,7 +111,8 @@ function effect2(particle) {
     particle.vy += Math.cos(particle.theta) * 0.1;
     particle.size *= 0.96;
 
-    ctx.fillStyle = 'rgba(' + particle.color[0] + ',' + particle.color[1] + ',' + particle.color[2] + ',' + particle.alpha + ')';
+    ctx.fillStyle =
+        "rgba(" + particle.color[0] + "," + particle.color[1] + "," + particle.color[2] + "," + particle.alpha + ")";
     ctx.beginPath();
     ctx.arc(Math.round(particle.x - 1), Math.round(particle.y - 1), particle.size, 0, 2 * Math.PI);
     ctx.fill();
@@ -115,12 +120,17 @@ function effect2(particle) {
 
 function drawParticles(timeDelta) {
     let particle;
-    for (let i = particles.length; i--;) {
+    for (let i = particles.length; i--; ) {
         particle = particles[i];
-        if (!particle || particle.alpha < 0.01 || particle.size <= 0.5) { continue; }
+        if (!particle || particle.alpha < 0.01 || particle.size <= 0.5) {
+            continue;
+        }
 
-        if (effect === 1) { effect1(particle); }
-        else if (effect === 2) { effect2(particle); }
+        if (effect === 1) {
+            effect1(particle);
+        } else if (effect === 2) {
+            effect2(particle);
+        }
     }
 }
 
@@ -134,27 +144,32 @@ function shake(editor, time) {
 }
 
 function random(min, max) {
-    if (!max) { max = min; min = 0; }
-    return min + ~~(Math.random() * (max - min + 1))
+    if (!max) {
+        max = min;
+        min = 0;
+    }
+    return min + ~~(Math.random() * (max - min + 1));
 }
 
 function throttle(callback, limit) {
     let wait = false;
-    return function() {
+    return function () {
         if (!wait) {
             callback.apply(this, arguments);
             wait = true;
-            setTimeout(function() {
+            setTimeout(function () {
                 wait = false;
             }, limit);
         }
-    }
+    };
 }
 
 const FPS_INTERVAL = 0.02;
 
 function loop() {
-    if (!EditorManager.isPowerModeOn()) { return; }
+    if (!EditorManager.isPowerModeOn()) {
+        return;
+    }
 
     // get the time past the previous frame
     let current_time = new Date().getTime();
@@ -169,13 +184,12 @@ function loop() {
 
     ctx.clearRect(0, 0, w, h);
 
-
     if (shakeTime > 0) {
         shakeTime -= dt;
         let magnitude = (shakeTime / shakeTimeMax) * shakeIntensity;
         let shakeX = random(-magnitude, magnitude);
         let shakeY = random(-magnitude, magnitude);
-        EditorManager.getEditor().dom.style.transform = 'translate(' + shakeX + 'px,' + shakeY + 'px)';
+        EditorManager.getEditor().dom.style.transform = "translate(" + shakeX + "px," + shakeY + "px)";
     }
     drawParticles();
     requestAnimationFrame(loop);
@@ -188,22 +202,19 @@ function onCodeMirrorChange() {
         throttledShake(editor, 0.3);
     }
     throttledSpawnParticles(editor);
-
 }
 
-
 export function initPowerMode() {
-
     if (!canvas) {
-        canvas = document.createElement('canvas');
-        ctx = canvas.getContext('2d');
+        canvas = document.createElement("canvas");
+        ctx = canvas.getContext("2d");
 
-        canvas.id = 'code-blast-canvas';
-        canvas.style.position = 'absolute';
+        canvas.id = "code-blast-canvas";
+        canvas.style.position = "absolute";
         canvas.style.top = "0";
         canvas.style.left = "0";
         canvas.style.zIndex = "1";
-        canvas.style.pointerEvents = 'none';
+        canvas.style.pointerEvents = "none";
         canvas.width = w;
         canvas.height = h;
 
