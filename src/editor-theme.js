@@ -12,11 +12,12 @@ export const EditorTheme = css`
 
 export const ButtonTheme = css`
     button {
-        background: rgb(229, 192, 123);
-        color: #fff;
+        background: var(--citd-button-bg);
+        color: var(--citd-button-fg);
         border: none;
         font-size: 1.4rem;
         margin-bottom: 0.2rem;
+        padding: 0.5rem 1rem;
         cursor: pointer;
         font-family: inherit;
     }
