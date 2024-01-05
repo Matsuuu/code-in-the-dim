@@ -10,7 +10,7 @@ function loadConfiguration() {
 function getConfigPath() {
     const urlParams = new URLSearchParams(window.location.href);
     if (urlParams.has("config")) {
-        return "configurations/" + urlParams.get("config") + ".js";
+        return `configurations/${urlParams.get("config")}.js`;
     }
     return "configurations/default.js";
 }
