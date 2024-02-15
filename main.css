@@ -1,10 +1,36 @@
+@font-face {
+    src: url("./assets/ibmplexsans-regular.woff2") format("woff2");
+    font-family: "IBM Plex Sans";
+}
+
+@font-face {
+    src: url("./assets/ibmplexsans-bold.woff2") format("woff2");
+    font-family: "IBM Plex Sans";
+    font-weight: bold;
+}
+
+:root {
+    --citd-bg: #282c34;
+    --citd-fg: #fff;
+    --citd-button-bg: #c77b20;
+    --citd-button-fg: #fff;
+    --citd-name-bg: #b71540;
+    --citd-name-fg: #fff;
+    --citd-popover-bg: rgba(255, 255, 255, 0.3);
+    --citd-popover-fg: #fff;
+    --citd-instructions-bg: rgba(204, 204, 204, 0.7);
+    --citd-instructions-fg: #000;
+}
+
 html,
-body {
-    background: #282c34;
+body,
+button {
+    background: var(--citd-bg);
+    font-family: 'IBM Plex Sans', sans-serif;
 }
 
 label {
-    color: #fff;
+    color: var(--citd-fg);
 }
 
 #bottom-buttons {
