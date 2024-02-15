@@ -56,7 +56,6 @@ export class EditorElement extends LitElement {
                 codemirrorCss(),
                 codemirrorHtml(),
                 oneDark,
-                initPowerMode(),
             ],
             parent: this.shadowRoot.querySelector("#editor"),
         });
