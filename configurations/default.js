@@ -12,7 +12,12 @@ Good luck and most important of all; have fun!
 `;
 
 window.CODE_IN_THE_DARK_CONFIGURATION = {
-    assets: [{ name: "turkufrontend-logo.png", url: "...", description: "400x200" }],
+    assets: [
+        { name: "page.png", url: "assets/page.png", description: "400x200" },
+        { name: "page.png", url: "assets/page.png", description: "400x200" },
+        { name: "page.png", url: "assets/page.png", description: "400x200" },
+        { name: "page.png", url: "assets/page.png", description: "400x200" },
+    ],
     referenceImage: "assets/page.png",
     roundId: "default",
     rules: RULES,

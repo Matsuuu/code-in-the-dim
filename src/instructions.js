@@ -1,5 +1,6 @@
 import { LitElement, css, html } from "lit";
 import { ButtonTheme } from "./editor-theme.js";
+import { debugBubble } from "debug-bubble";
 
 export class CodingInstructions extends LitElement {
     static get properties() {
@@ -8,8 +9,13 @@ export class CodingInstructions extends LitElement {
         };
     }
 
+    copyUrl(url) {
+        navigator.clipboard.writeText(url);
+        debugBubble("Url copied", "", 1);
+    }
+
     render() {
-        const {assets, rules} = window.CODE_IN_THE_DARK_CONFIGURATION;
+        const { assets, rules } = window.CODE_IN_THE_DARK_CONFIGURATION;
         return html`
             <button @click=${() => (this.open = !this.open)}>Instructions</button>
 
@@ -18,11 +24,13 @@ export class CodingInstructions extends LitElement {
                 <label>--- Assets --- </label>
                 <ul>
                     ${assets.map(
-                        asset => html`<li>
-                          ${asset.name} (${asset.description})<br/>
-                          <input readonly value="${asset.url}" />
-                        </li>`,
-                    )}
+            asset =>
+                html`<li>
+                                <span>${asset.name} (${asset.description})</span>
+                                <input @click=${() => this.copyUrl(asset.url)} readonly value="${asset.url}" />
+                                <img src="${asset.url}" />
+                            </li>`,
+        )}
                 </ul>
             </section>
         `;
@@ -45,10 +53,27 @@ export class CodingInstructions extends LitElement {
                     color: var(--citd-instructions-fg);
                     backdrop-filter: blur(5px);
                     padding: 2rem;
+                    overflow: auto;
+                    max-height: 70%;
+                }
+
+                img {
+                    max-width: 200px;
                 }
 
                 p {
                     white-space: break-spaces;
+                }
+
+                input {
+                    width: fit-content;
+                }
+
+                li {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    margin-bottom: 2rem;
                 }
             `,
             ButtonTheme,
