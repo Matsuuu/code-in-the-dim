@@ -34,15 +34,16 @@ export class ReferenceImage extends LitElement {
 
             :host([show]) {
                 position: fixed;
-                height: 95%;
-                aspect-ratio: 1;
+                height: 80%;
                 inset: 0;
                 margin: auto;
             }
 
             :host([show]) img {
-                width: 100%;
                 height: 100%;
+                max-width: 90%;
+                width: unset;
+                margin: auto;
             }
 
             img {
